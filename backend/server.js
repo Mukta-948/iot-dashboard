@@ -25,23 +25,23 @@ const SensorSchema = new mongoose.Schema({
 const Sensor = mongoose.model("Sensor", SensorSchema);
 
 // Email transporter (PUT YOUR DETAILS HERE)
+require("dotenv").config();
+
 const transporter = nodemailer.createTransport({
   service: "gmail",
   auth: {
-    user: "dmukta175@gmail.com",
-    pass: "ahyhjnppjcrzxoow"
+    user: process.env.EMAIL_USER,
+    pass: process.env.EMAIL_PASS
   }
 });
 
 // Send email function
-const sendAlertEmail = async (message) => {
-  try {
-    await transporter.sendMail({
-      from: "dmukta175@gmail.com",
-      to: "dmukta175@gmail.com",
-      subject: "IoT Alert",
-      text: message
-    });
+await transporter.sendMail({
+  from: process.env.EMAIL_USER,
+  to: process.env.EMAIL_USER,
+  subject: "IoT Alert",
+  text: message
+});
     console.log("Alert email sent");
   } catch (err) {
     console.log("Email error:", err);
